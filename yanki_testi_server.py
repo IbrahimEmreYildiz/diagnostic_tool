@@ -20,6 +20,13 @@ def yanki_sunucu():
     baglanti, adres = sunucu.accept()
     print("Bağlantı kuruldu:", adres)
 
+
+    veri_baytı = baglanti.recv(1024) # Yani 0 bayt veri gelirse hiç veri yollanmadı demek.
+    if not veri_baytı: # Kısaca veri alıp almadığımın kontrolü diyebiliriz.
+        print("İstemci veri göndermeden bağlantıyı kapattı.")
+        return
+
+
     # İstemciden gelen en fazla 1024 baytlık veriyi aldım. Çünkü diğer türlü ne kadar veri geleceği belli değil. Uygulama donabilir veya RAM'e gereksiz yüklenirim.
     veri = baglanti.recv(1024).decode() #decode () bayt olarak gelen veriyi string yapar.
     print("Gelen mesaj:", veri)

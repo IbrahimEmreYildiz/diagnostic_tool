@@ -3,9 +3,10 @@
 import socket
 
 def makine_bilgisi_al():
+    print("GENEL BİLGİLER ")
     # Pc'nin adını alma yeri
     makine_adi = socket.gethostname()
-    print("\nMakine adı:", makine_adi)
+    print("Makine adı:", makine_adi)
 
     # Makineden IP adresini alma yeri
     ip_adresi = socket.gethostbyname(makine_adi)
@@ -23,6 +24,6 @@ def makine_bilgisi_al():
 
     print("Yerel IP (aktif ağ) ve Port Numarası:", yerel_ip)
 
-# Program direkt çalıştırıldığında fonksiyon çalışsın
+# Program direkt çalıştırıldığında fonksiyon çalışsın yani import edersem direkt çalışmasın demek.
 if __name__ == "__main__":
     makine_bilgisi_al()

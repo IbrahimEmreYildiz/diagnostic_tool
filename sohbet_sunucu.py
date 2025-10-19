@@ -1,7 +1,4 @@
-# chat_server.py
 # Basit Sohbet Sunucusu (TCP)
-# Amaç: İstemciden mesaj al, ekrana yaz; senin yazdığını istemciye gönder.
-# Not: 'exit' yazan taraf sohbeti bitirir.
 
 import socket
 
@@ -20,29 +17,42 @@ def sohbet_sunucu():
     baglanti, adres = sunucu.accept()
     print("Bağlantı kuruldu:", adres)
 
+
+    # log komutuyla sohbetin geçmişini kaydettim.
     try:
-        while True:
-            veri = baglanti.recv(1024)
-            if not veri:
-                print("İstemci bağlantıyı kapattı.")
-                break
+       # open ile dosya oluşturup (chat.log adında), append yani 'a' dosya varsa silmez üstüne ekler utf-8 ise Türkçe karakterleri sorunsuz yazar.
+        with open("chat.log", "a", encoding="utf-8") as log: # with kullanınca dosyayı kapatmama gerek kalmadı. as log ise dosyaya log adını ver demek.
+            log.write(f"\n Yeni Sohbet Başladı ({adres}) \n")
 
-            mesaj = veri.decode()
-            print(f"[İstemci]: {mesaj}")
+            while True:
+                veri = baglanti.recv(1024)
+                if not veri:
+                    print("İstemci bağlantıyı kapattı.")
+                    log.write("İstemci bağlantıyı kapattı.\n")
+                    break
 
-            # exit yazarlarsa sohbet biter.
-            if mesaj.strip().lower() == "exit":
-                print("İstemci sohbeti sonlandırdı.")
-                break
+                mesaj = veri.decode()
+                print(f"[İstemci]: {mesaj}")
+                log.write(f"[İstemci]: {mesaj}\n")
 
-            # 5) istemciye cevap verme kısmı
-            cevap = input("[Sen]: ")
-            baglanti.send(cevap.encode())
+                # exit yazarlarsa sohbet biter.
+                if mesaj.strip().lower() == "exit":
+                    print("İstemci sohbeti sonlandırdı.")
+                    log.write("İstemci sohbeti sonlandırdı.\n")
+                    break
 
-            # exit denirse bitir
-            if cevap.strip().lower() == "exit": #strip fonksiyonu karakterler arası boşluğu yoksayar. lower() ise tüm harfleri küçültür.
-                print("Sohbet sonlandırıldı.")
-                break
+                # 5) istemciye cevap verme kısmı
+                cevap = input("[Sen]: ")
+                baglanti.send(cevap.encode())
+                log.write(f"[Sunucu]: {cevap}\n")
+
+                # exit denirse bitir
+                if cevap.strip().lower() == "exit": #strip fonksiyonu karakterler arası boşluğu yoksayar. lower() ise tüm harfleri küçültür.
+                    print("Sohbet sonlandırıldı.")
+                    log.write("Sunucu sohbeti sonlandırdı.\n")
+                    break
+
+            log.write("Sohbet Bitti \n")
     finally:
         baglanti.close()
         sunucu.close()
