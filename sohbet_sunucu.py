@@ -40,7 +40,7 @@ def sohbet_sunucu():
             baglanti.send(cevap.encode())
 
             # exit denirse bitir
-            if cevap.strip().lower() == "exit":
+            if cevap.strip().lower() == "exit": #strip fonksiyonu karakterler arası boşluğu yoksayar. lower() ise tüm harfleri küçültür.
                 print("Sohbet sonlandırıldı.")
                 break
     finally:
