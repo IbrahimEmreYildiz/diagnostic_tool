@@ -20,19 +20,20 @@ def yanki_sunucu():
     baglanti, adres = sunucu.accept()
     print("Bağlantı kuruldu:", adres)
 
-
-    veri_baytı = baglanti.recv(1024) # Yani 0 bayt veri gelirse hiç veri yollanmadı demek.
-    if not veri_baytı: # Kısaca veri alıp almadığımın kontrolü diyebiliriz.
+    # İstemciden gelen veriyi al
+    veri_baytı = baglanti.recv(1024)  # 0 bayt veri gelirse hiç veri yollanmadı demek.
+    if not veri_baytı:  # Kısaca veri alıp almadığımın kontrolü diyebiliriz.
         print("İstemci veri göndermeden bağlantıyı kapattı.")
+        baglanti.close()
+        sunucu.close()
         return
 
-
-    # İstemciden gelen en fazla 1024 baytlık veriyi aldım. Çünkü diğer türlü ne kadar veri geleceği belli değil. Uygulama donabilir veya RAM'e gereksiz yüklenirim.
-    veri = baglanti.recv(1024).decode() #decode () bayt olarak gelen veriyi string yapar.
+    # Gelen veriyi string'e çevir
+    veri = veri_baytı.decode()  # decode() bayt olarak gelen veriyi string yapar.
     print("Gelen mesaj:", veri)
 
     # Aynı mesajı geri gönderdim. Yani yankı yaptım.
-    baglanti.send(veri.encode()) # Veriyi göndermek için bayt türüne geri çevirir.
+    baglanti.send(veri.encode())  # Veriyi göndermek için bayt türüne geri çevirir.
     print("Mesaj yankılandı, istemciye gönderildi.")
 
     # Bağlantıyı kapat
