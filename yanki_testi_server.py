@@ -34,7 +34,7 @@ def yanki_sunucu():
 
     # Aynı mesajı geri gönderdim. Yani yankı yaptım.
     baglanti.send(veri.encode())  # Veriyi göndermek için bayt türüne geri çevirir.
-    print("Mesaj yankılandı, istemciye gönderildi.")
+    print(" Mesaj yankılandı, istemciye gönderildi.")
 
     # Bağlantıyı kapat
     baglanti.close()

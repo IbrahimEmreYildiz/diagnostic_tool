@@ -1,0 +1,115 @@
+🧾 CEN322 – Network Programming Dersi Proje Raporu
+
+Proje Adı: Network Diagnostic and Tool Package
+Hazırlayan: İbrahim Emre YILDIZ
+Teslim Tarihi: 24 Ekim 2025
+Ders: CEN322 – Network Programming
+
+ 1. Projenin Amacı
+
+Bu projenin amacı, temel ağ programlama (network programming) konularını bir araya getirerek TCP/UDP soketlerinin çalışma mantığını, zaman senkronizasyonu ve istemci–sunucu iletişimini uygulamalı olarak göstermektir.
+
+Program, bir ağ üzerindeki cihazın bilgilerini görüntüleyebilen, bağlantı testleri yapabilen, zaman senkronizasyonu sağlayabilen ve basit bir chat sistemi üzerinden mesajlaşmaya imkân tanıyan bir diagnostic tool (teşhis aracı) olarak tasarlanmıştır.
+
+Tüm modüller, main.py dosyası üzerinden kullanıcıya sunulan bir menü yardımıyla entegre biçimde çalışmaktadır.
+
+ 2. Proje Modülleri
+
+ a) makine_bilgisi.py
+
+Bu modül, çalıştığı cihazın ağ ve sistem bilgilerini ekrana yazdırır.
+Kullanılan başlıca fonksiyonlar:
+
+socket.gethostname() → Bilgisayarın adını döndürür.
+
+socket.gethostbyname() → IP adresini öğrenir.
+Bu modül sayesinde ağda cihazın kimliği kolayca görüntülenir.
+
+ b) yanki_testi_server.py ve yanki_testi_client.py
+
+Bu modüller, TCP protokolü üzerinden echo (yankı) testi yapar.
+İstemci tarafından gönderilen mesaj sunucu tarafından alınır ve aynı şekilde geri gönderilir.
+Eğer giden ve gelen veri aynıysa bağlantının doğru ve kararlı çalıştığı anlaşılır.
+
+Kullanılan temel kavramlar:
+
+socket.socket(socket.AF_INET, socket.SOCK_STREAM) → TCP soketi oluşturur.
+
+bind() ve listen() → Sunucunun bağlantı beklemesini sağlar.
+
+accept() ve recv() → Veri alışverişini gerçekleştirir.
+Bu test, bağlantının güvenilirliğini kontrol etmek için kullanılmıştır.
+
+ c) zaman_alma.py
+
+Bu modül, SNTP (Simple Network Time Protocol) üzerinden saat senkronizasyonu yapar.
+İstemci, uzak bir zaman sunucusundan sistem saati bilgisini UDP paketiyle alır.
+Bu sayede, cihazın sistem saati ağ üzerindeki doğru zamanla karşılaştırılabilir hale gelir.
+
+ d) sohbet_sunucu.py ve sohbet_istemci.py
+
+Bu modüller, TCP tabanlı bir chat (mesajlaşma) sistemi oluşturur.
+Sunucu ve istemci ayrı terminallerde çalıştırılarak karşılıklı mesaj gönderilebilir.
+Kullanıcı “çıkış” yazarak sohbeti sonlandırabilir.
+
+Proje kapsamında bu kısım, çift yönlü veri akışının (bi-directional communication) temelini göstermek amacıyla yazılmıştır.
+
+ e) hata_yonetimi_ve_ayarlar.py
+
+Bu modül, settimeout() ve setblocking() gibi fonksiyonlarla socket ayarlarını ve hata yönetimini test eder.
+Amaç, bağlantı hataları, zaman aşımı (timeout) ve bloklama davranışlarının nasıl yönetileceğini göstermektir.
+Hatalar try-except bloklarıyla yakalanmakta ve kullanıcıya açıklayıcı mesaj olarak sunulmaktadır.
+
+ 3. Test Sonuçları
+
+Yankı Testi: İstemciden “Test mesajı” gönderilmiş, sunucudan “Test mesajı” geri alınmıştır.
+ Sonuç: Bağlantı başarılı, veri aynı! 
+
+Zaman Senkronizasyonu: Uzak SNTP sunucusundan doğru saat bilgisi alınmıştır.
+ Sonuç: Zaman senkronizasyonu başarılı. 
+
+Sohbet Modülü: Sunucu ve istemci arasında çift yönlü mesajlaşma gerçekleşmiştir.
+ Sonuç: Mesajlar sorunsuz gönderildi ve alındı. 
+
+Makine Bilgisi: IP adresi, hostname ve ağ arabirimleri başarıyla listelenmiştir.
+ Sonuç: Bilgi okuma başarılı. 
+
+Hata Yönetimi: Timeout ve bloklama modları doğru şekilde çalışmıştır.
+ Sonuç: Hatalar yakalandı ve yönetildi. 
+
+ 4. Sonuç ve Değerlendirme
+
+Bu proje kapsamında, Python programlama dili ile ağ tabanlı iletişim, zaman senkronizasyonu ve hata yönetimi gibi temel network konuları başarıyla uygulanmıştır.
+Tüm modüller main.py üzerinden entegre biçimde çalışmış, test sonuçları beklenen şekilde alınmıştır.
+
+Proje, TCP/UDP soketlerinin işleyişini anlamak, bağlantı yönetimi ve veri alışverişi üzerine pratik deneyim kazanmak açısından oldukça öğretici olmuştur.
+
+ 5. Kullanılan Teknolojiler
+
+Programlama Dili: Python 3
+
+Kütüphaneler: socket, threading, time
+
+Protokoller: TCP, UDP, SNTP
+
+Geliştirme Ortamı: Pycharm
+
+İşletim Sistemi: Windows 11
+
+ 6. Kaynaklar
+
+Python Official Documentation – socket programming
+
+RFC 4330 – Simple Network Time Protocol (SNTP)
+
+CEN322 ders notları 
+
+ 7. Ekran Görüntüleri (İsteğe Bağlı)
+
+Bu bölümde test çıktılarının ekran görüntüleri eklenebilir:
+
+Yankı testi sonucu (client–server penceresi)
+
+Sohbet modülü mesajlaşma ekranı
+
+Zaman senkronizasyonu çıktısı
